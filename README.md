@@ -21,11 +21,11 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 - [x] 1.  Piensa qué relación es
 - [x] 2.  Crea la relación User-Movies.
-- [ ] 3.  Crea la relación Movies-Actors.
+- [x] 3.  Crea la relación Movies-Actors.
 
 **4.4 Node JS:**
 
-- [ ] 1. Descarga el proyecto
+- [x] 1. Descarga el proyecto
 - [ ] 2. Arranca el backend
 - [ ] 3. Arranca el front end
 - [ ] 4. Prueba el proyecto
