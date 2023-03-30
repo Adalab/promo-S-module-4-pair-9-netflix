@@ -1,30 +1,23 @@
-CREATE DATABASE Netflix;
-USE Netflix;
-CREATE TABLE Movies(
-idMovies INT auto_increment primary key not null,
-title varchar(45) not null,
-gender varchar(45) not null,
-images varchar(1000) not null,
-category varchar(45) not null,
-year int 
-);
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: localhost    Database: netflix
+-- ------------------------------------------------------
+-- Server version	8.0.32
 
-CREATE TABLE Users(
-idUser int auto_increment primary key,
-user varchar(45) not null,
-password varchar(45) not null,
-name varchar(45) not null,
-email varchar(45) not null,
-plan_details varchar(45) not null
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE TABLE Actors(
-idActors int auto_increment primary key not null,
-name varchar(45) not null,
-lastName varchar(45) not null,
-country varchar(45) not null,
-birthday date
-);
+--
+-- Table structure for table `actors`
+--
 
 DROP TABLE IF EXISTS `actors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -113,3 +106,50 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-03-27 19:41:25
+
+SELECT * FROM Actors;
+
+
+INSERT INTO users (
+user, password, name, email, plan_details
+)VALUES 
+("laura_dev", "laura", "Laura", "laura@gmail.com", "Standard"),
+("maria_dev", "maria", "Maria", "maria@gmail.com", "Standard"), 
+("ester_dev", "ester", "Ester", "ester@gmail.com", "Standard");
+
+INSERT INTO Actors (
+name, lastName, country, birthday
+)VALUES 
+("Tom", "Hanks", "Estados Unidos","1956-06-09"),
+("Roberto", "Benigni", "Italia", "1952-10-27"), 
+("John", "Travolta", "Estados Unidos", "1954-02-18");
+
+SELECT * FROM movies;
+
+SELECT title, gender FROM movies
+WHERE year > 1990;
+
+SELECT title FROM movies
+WHERE category = "Top 10";
+
+UPDATE movies
+SET year = 1997
+WHERE idMovies = 2;
+
+SELECT * FROM actors;
+
+SELECT name FROM actors
+WHERE birthday BETWEEN '1950-01-01' and '1960-01-01';
+
+SELECT name, lastName FROM actors
+WHERE country  = "Estados Unidos";
+
+SELECT user FROM users
+WHERE plan_details = "Standard";
+
+SELECT * FROM users;
+
+DELETE FROM users
+WHERE name LIKE 'M%';
+
+
