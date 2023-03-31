@@ -78,30 +78,27 @@ DELETE FROM users
 WHERE name LIKE 'M%';
 
 CREATE TABLE rel_movies_users (
+idMovies INT not null,
+idUser INT not null,
 idMoviesUsers INT not null auto_increment primary key,
 fk_movies INT,
-fk_users INT
+fk_users INT,
+FOREIGN KEY (fk_movies) REFERENCES Movies (idMovies),
+FOREIGN KEY (fk_users) REFERENCES Users (idUser)
 );
 
 CREATE TABLE rel_movies_actors (
+idMovies INT not null,
+idActors INT not null,
 idMoviesActors INT not null auto_increment primary key,
 fk_movies INT,
-fk_actors INT
+fk_actors INT,
+FOREIGN KEY (fk_movies) REFERENCES Movies (idMovies),
+FOREIGN KEY (fk_actors) REFERENCES Actors (idActors)
 );
 
-select * from rel_movies_actors;
+select * from rel_movies_users;
 
-INSERT INTO rel_movies_users(fk_movies, fk_users)
+INSERT INTO rel_movies_users(idMovies, idUser)
 VALUES (1 , 1), (2 , 1), (2 , 2);
 
-DELETE FROM rel_movies_users
-WHERE idMoviesUsers >= 1;
-
-INSERT INTO rel_movies_users(fk_movies, fk_users)
-VALUES (1 , 1), (2 , 1), (3 , 2);
-
-INSERT INTO rel_movies_actors (fk_actors, fk_movies ) VALUES (1, 3), (2, 2), (3, 1);
-
-SELECT users.name, movies.title
-FROM users, movies, rel_movies_users
-WHERE rel_movies_users.fk_users = users.idUser and rel_movies_users.fk_movies = movies.idMovies;
