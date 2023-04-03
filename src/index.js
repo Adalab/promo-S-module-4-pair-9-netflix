@@ -41,9 +41,17 @@ mysql
   });
 
 app.get('/movies', (req, res) => {
-  console.log('Pidiendo a la base de datos información de películas.');
+  console.log('orden', req.query.sort);
+  let genreFilterParam = req.query.genre;
+  const sortFilterParam = req.query.sort;
+  if (genreFilterParam === '') {
+    genreFilterParam = '%';
+  }
   connection
-    .query('SELECT * FROM freedb_Netflix.Movies')
+    .query(
+      `SELECT * FROM Movies WHERE genre LIKE ? ORDER BY title ${sortFilterParam}`,
+      [genreFilterParam]
+    )
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       results.forEach((result) => {
@@ -54,6 +62,37 @@ app.get('/movies', (req, res) => {
         success: true,
         movies: results,
       });
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post('/login', (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;
+  const password = req.body.password;
+  connection
+    .query(`SELECT * FROM Users WHERE email = ? AND password = ?`, [
+      email,
+      password,
+    ])
+    .then(([results, fields]) => {
+      console.log('Información recuperada:');
+      console.log('resultados', results);
+      if (results.length > 0 || results !== []) {
+        console.log('true');
+        res.json({
+          success: true,
+          userId: results[0].idUser,
+        });
+      } else {
+        console.log('false');
+        res.json({
+          success: false,
+          errorMessage: 'Usuaria/o no encontrada/o',
+        });
+      }
     })
     .catch((err) => {
       throw err;
