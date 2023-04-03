@@ -4,9 +4,9 @@ const app = express();
 const port = 3000;
 const mysql = require('mysql2/promise');
 
-// create and config server
-// app.use(cors());
-// app.use(express.json());
+//create and config server
+app.use(cors());
+app.use(express.json());
 
 // init express aplication
 const serverPort = 4000;
@@ -18,10 +18,10 @@ let connection;
 
 mysql
   .createConnection({
-    host: 'localhost',
-    database: 'Netflix',
-    user: 'root',
-    password: 'Cumple11041992!',
+    host: 'sql.freedb.tech',
+    database: 'freedb_Netflix',
+    user: 'freedb_Pair 9',
+    password: 'NSC7*47uS6%DBvq',
   })
   .then((conn) => {
     connection = conn;
@@ -43,14 +43,17 @@ mysql
 app.get('/movies', (req, res) => {
   console.log('Pidiendo a la base de datos información de películas.');
   connection
-    .query('SELECT title FROM movies')
+    .query('SELECT * FROM freedb_Netflix.Movies')
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       results.forEach((result) => {
         console.log(result);
       });
 
-      res.json(results);
+      res.json({
+        success: true,
+        movies: results,
+      });
     })
     .catch((err) => {
       throw err;
