@@ -80,7 +80,7 @@ app.post('/login', (req, res) => {
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       console.log('resultados', results);
-      if (results.length > 0 || results !== []) {
+      if (results.length) {
         console.log('true');
         res.json({
           success: true,
@@ -98,3 +98,7 @@ app.post('/login', (req, res) => {
       throw err;
     });
 });
+
+app.use(express.static('./src/public-react/'));
+
+app.use(express.static('./src/public-movies-images'));
