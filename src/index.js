@@ -13,7 +13,7 @@ const serverPort = 4000;
 app.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
-
+app.set('view engine', 'ejs');
 let connection;
 
 mysql
@@ -99,6 +99,20 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.use(express.static('./src/public-react/'));
+app.get('/movie/:movieId', (req, res) => {
+  console.log(req.params.movieId);
+  const sql = `SELECT * FROM Movies WHERE idMovies = ?`;
+  connection
+    .query(sql, [req.params.movieId])
+    .then(([results, fields]) => {
+      //console.log(results);
+      res.render('movie', results[0]);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
 
+app.use(express.static('./src/public-react/'));
+app.use(express.static('./src/public-movies-css'));
 app.use(express.static('./src/public-movies-images'));
