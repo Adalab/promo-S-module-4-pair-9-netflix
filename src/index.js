@@ -3,10 +3,16 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 const mysql = require('mysql2/promise');
+const mongoose = require('mongoose');
 
 //create and config server
 app.use(cors());
 app.use(express.json());
+const dbConnect = require('../config/connections');
+dbConnect();
+const Actors = require('../models/actors');
+const Movies = require('../models/movies');
+const Users = require('../models/users');
 
 // init express aplication
 const serverPort = 4000;
@@ -110,6 +116,35 @@ app.get('/movie/:movieId', (req, res) => {
     })
     .catch((err) => {
       throw err;
+    });
+});
+
+app.get('/movies_all_mongo', (req, res) => {
+  Movies.find({})
+    .then((docs) => {
+      console.log(docs);
+      res.json({
+        success: true,
+        movies: docs,
+      });
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+app.get('/movies_mongo_genre/:genreValue', (req, res) => {
+  const { genreValue } = req.params;
+  Movies.find({ genre: genreValue })
+    .then((docs) => {
+      console.log(req.params);
+      res.json({
+        success: true,
+        movies: docs,
+      });
+    })
+    .catch((error) => {
+      console.log('Error', error);
     });
 });
 
