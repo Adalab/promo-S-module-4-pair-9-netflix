@@ -2,17 +2,19 @@ import React from 'react';
 import MoviesList from './MoviesList';
 import '../stylesheets/AppMovies.scss';
 
-const AllMovies = props => {
-  const handleOptions = ev => {
+const AllMovies = (props) => {
+  const handleOptions = (ev) => {
     props.handleAllMoviesOptions({
       value: ev.target.value,
-      key: ev.target.name
+      key: ev.target.name,
     });
   };
 
   return (
     <section className="border--medium">
-      <h1 className="title--medium">Estas son todas las películas de nuestro catálogo</h1>
+      <h1 className="title--medium">
+        Estas son todas las películas de nuestro catálogo
+      </h1>
       <form className="movies__filters">
         <div className="movies__filters--gender">
           <label htmlFor="filterGender">Filtrar por género</label>
@@ -23,7 +25,7 @@ const AllMovies = props => {
             value={props.allMoviesOptionGender}
             onChange={handleOptions}
           >
-            <option value="">Todas</option>
+            <option value="Todas">Todas</option>
             <option value="Drama">Drama</option>
             <option value="Comedia">Comedia</option>
           </select>
@@ -31,7 +33,7 @@ const AllMovies = props => {
 
         <div className="movies__filters--sort">
           <label>
-            Ordernar: A-Z
+            Ordenar: A-Z
             <input
               className="movies__radio"
               type="radio"

@@ -46,7 +46,7 @@ mysql
     console.error('Error de configuración: ' + err.stack);
   });
 
-app.get('/movies', (req, res) => {
+/*app.get('/movies', (req, res) => {
   console.log('orden', req.query.sort);
   let genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
@@ -72,7 +72,7 @@ app.get('/movies', (req, res) => {
     .catch((err) => {
       throw err;
     });
-});
+});*/
 
 app.post('/login', (req, res) => {
   console.log(req.body);
@@ -133,11 +133,21 @@ app.get('/movies_all_mongo', (req, res) => {
     });
 });
 
-app.get('/movies_mongo_genre/:genreValue', (req, res) => {
+app.get('/movies_all_mongo/:genreValue/:sortValue', (req, res) => {
   const { genreValue } = req.params;
-  Movies.find({ genre: genreValue })
+  const { sortValue } = req.params;
+  const find = {};
+  if (genreValue !== 'Todas') {
+    find.genre = genreValue;
+  }
+
+  //console.log('holis', genreValue);
+  //console.log('adios', sortValue);
+  Movies.find(find)
+    .sort({ title: sortValue === 'asc' ? 1 : -1 })
+
     .then((docs) => {
-      console.log(req.params);
+      //console.log(docs);
       res.json({
         success: true,
         movies: docs,
