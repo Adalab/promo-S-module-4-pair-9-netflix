@@ -105,19 +105,19 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.get('/movie/:movieId', (req, res) => {
-  console.log(req.params.movieId);
-  const sql = `SELECT * FROM Movies WHERE idMovies = ?`;
-  connection
-    .query(sql, [req.params.movieId])
-    .then(([results, fields]) => {
-      //console.log(results);
-      res.render('movie', results[0]);
-    })
-    .catch((err) => {
-      throw err;
-    });
-});
+// app.get('/movie/:movieId', (req, res) => {
+//   console.log(req.params.movieId);
+//   const sql = `SELECT * FROM Movies WHERE idMovies = ?`;
+//   connection
+//     .query(sql, [req.params.movieId])
+//     .then(([results, fields]) => {
+//       //console.log(results);
+//       res.render('movie', results[0]);
+//     })
+//     .catch((err) => {
+//       throw err;
+//     });
+// });
 
 app.get('/movies_all_mongo', (req, res) => {
   Movies.find({})
@@ -152,6 +152,19 @@ app.get('/movies_all_mongo/:genreValue/:sortValue', (req, res) => {
         success: true,
         movies: docs,
       });
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+app.get('/movie/:movieId', (req, res) => {
+  const { movieId } = req.params;
+  console.log(movieId);
+  Movies.find({ _id: movieId })
+    .then((docs) => {
+      console.log(docs);
+      res.render('movie', docs[0]);
     })
     .catch((error) => {
       console.log('Error', error);
