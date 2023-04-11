@@ -172,15 +172,6 @@ app.get('/movie/:movieId', (req, res) => {
     });
 });
 
-app.get('/find-movies', (req, res) => {
-  Favorites.find({
-    idMovie: ObjectId('643524e002cbf25a37ecd04d').then((docs) => {
-      console.log(docs);
-      res.json(docs);
-    }),
-  });
-});
-
 app.post('/favorites-add', (req, res) => {
   let idMovie = '642d381f0b94d82287f2b72c';
   let idUser = '642d39010b94d82287f2b72f';
@@ -196,6 +187,20 @@ app.post('/favorites-add', (req, res) => {
     })
     .catch((error) => {
       console.log('Error', error);
+    });
+});
+
+app.get('/favorites-list/:user', (req, res) => {
+  //const user = req.params.user;
+  Favorites.find({
+    idUser: req.params.user,
+  })
+    // .populate({ path: 'movies', strictPopulate: false })
+    .then((docs) => {
+      res.json(docs);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });
 
