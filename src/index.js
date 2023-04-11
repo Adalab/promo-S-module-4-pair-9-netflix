@@ -13,6 +13,7 @@ dbConnect();
 const Actors = require('../models/actors');
 const Movies = require('../models/movies');
 const Users = require('../models/users');
+const Favorites = require('../models/favorites');
 
 // init express aplication
 const serverPort = 4000;
@@ -165,6 +166,33 @@ app.get('/movie/:movieId', (req, res) => {
     .then((docs) => {
       console.log(docs);
       res.render('movie', docs[0]);
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+app.get('/find-movies', (req, res) => {
+  Favorites.find({
+    idMovie: ObjectId('643524e002cbf25a37ecd04d').then((docs) => {
+      console.log(docs);
+      res.json(docs);
+    }),
+  });
+});
+
+app.post('/favorites-add', (req, res) => {
+  let idMovie = '642d381f0b94d82287f2b72c';
+  let idUser = '642d39010b94d82287f2b72f';
+  const favorites = new Favorites({
+    idUser: idMovie,
+    idMovie: idUser,
+    score: req.body.score,
+  });
+  favorites
+    .save()
+    .then((docs) => {
+      res.json(docs);
     })
     .catch((error) => {
       console.log('Error', error);
