@@ -1,13 +1,14 @@
+//incluir las constantes de express, cors, msql2.(app= como llamar al servidor)
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
 const mysql = require('mysql2/promise');
-const mongoose = require('mongoose');
 
-//create and config server
+//crear y configurar el servidor
 app.use(cors());
 app.use(express.json());
+
+//conxion con la base de datos y colecciones con documentos = registros
 const dbConnect = require('../config/connections');
 dbConnect();
 const Actors = require('../models/actors');
@@ -15,14 +16,17 @@ const Movies = require('../models/movies');
 const Users = require('../models/users');
 const Favorites = require('../models/favorites');
 
-// init express aplication
+// iniciar el servidor que escucha en el puerto 4000
 const serverPort = 4000;
 app.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
+
+//motor de plantillas
 app.set('view engine', 'ejs');
 let connection;
 
+//conexión con la base de datos mysql  (relacional) Workbench
 mysql
   .createConnection({
     host: 'sql.freedb.tech',
@@ -47,14 +51,17 @@ mysql
     console.error('Error de configuración: ' + err.stack);
   });
 
-/*app.get('/movies', (req, res) => {
+/*
+app.get('/movies', (req, res) => {
   console.log('orden', req.query.sort);
   let genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
   if (genreFilterParam === '') {
     genreFilterParam = '%';
   }
+  // petición a base de datos de tipo mysql
   connection
+  //selecciona las columnas de la tabla Movies que coincidan con el género de la constante creada arriba y que ordene los títulos según el orden de la constante de arriba
     .query(
       `SELECT * FROM Movies WHERE genre LIKE ? ORDER BY title ${sortFilterParam}`,
       [genreFilterParam]
@@ -76,10 +83,10 @@ mysql
 });*/
 
 app.post('/login', (req, res) => {
-  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
   connection
+    //email y password coincidan con la información del body
     .query(`SELECT * FROM Users WHERE email = ? AND password = ?`, [
       email,
       password,
@@ -121,34 +128,14 @@ app.post('/login', (req, res) => {
 // });
 
 app.get('/movies_all_mongo', (req, res) => {
-  Movies.find({})
+  const { genre, sort } = req.query;
+
+  const query = genre ? { genre: genre } : {};
+
+  Movies.find(query)
+    .sort({ title: sort === 'asc' ? 1 : -1 })
+    //ternario
     .then((docs) => {
-      console.log(docs);
-      res.json({
-        success: true,
-        movies: docs,
-      });
-    })
-    .catch((error) => {
-      console.log('Error', error);
-    });
-});
-
-app.get('/movies_all_mongo/:genreValue/:sortValue', (req, res) => {
-  const { genreValue } = req.params;
-  const { sortValue } = req.params;
-  const find = {};
-  if (genreValue !== 'Todas') {
-    find.genre = genreValue;
-  }
-
-  //console.log('holis', genreValue);
-  //console.log('adios', sortValue);
-  Movies.find(find)
-    .sort({ title: sortValue === 'asc' ? 1 : -1 })
-
-    .then((docs) => {
-      //console.log(docs);
       res.json({
         success: true,
         movies: docs,
@@ -191,7 +178,6 @@ app.post('/favorites-add', (req, res) => {
 });
 
 app.get('/favorites-list/:user', (req, res) => {
-  //const user = req.params.user;
   Favorites.find({
     Users: req.params.user,
   })

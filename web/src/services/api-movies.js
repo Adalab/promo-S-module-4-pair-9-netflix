@@ -1,18 +1,12 @@
 // login
-
+//Es la dirección que quieres que apunte tu endpoint y los parametros que le pasamos por query.(interpolar).
 const getMoviesFromApi = (params) => {
-  //console.log('params', params);
-  // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  console.log(
-    `http://localhost:4000/movies_all_mongo/${params.gender}/${params.sort}`
-  );
   return fetch(
-    `http://localhost:4000/movies_all_mongo/${params.gender}/${params.sort}`
+    `http://localhost:4000/movies_all_mongo?genre=${params.gender}&sort=${params.sort}`
   )
     .then((response) => response.json())
     .then((data) => {
       return data;
-      // CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA
     });
 };
 

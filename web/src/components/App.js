@@ -26,7 +26,7 @@ const App = () => {
   const [signUpErrorMessage, setSignUpErrorMessage] = useState('');
   // state: movies
   const [appMovies, setAppMovies] = useState([]);
-  const [allMoviesOptionGender, setAllMoviesOptionGender] = useState('Todas');
+  const [allMoviesOptionGender, setAllMoviesOptionGender] = useState('');
   const [allMoviesOptionSort, setAllMoviesOptionSort] = useState('asc');
 
   /*

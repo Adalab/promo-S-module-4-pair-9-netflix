@@ -69,11 +69,11 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 **4.10 Mongo III:**
 
 - [x] 1. Insertar Películas favoritas
-- [?] 3. Obtener Películas favoritas
+- [x] 3. Obtener Películas favoritas
 
 **4.11 Docker:**
 
-- [ ] 1. Crea un dockerfile
+- [x] 1. Crea un dockerfile
 - [ ] 2. Crea el `dockerignore`
 - [ ] 3. Crea un contenedor
 
