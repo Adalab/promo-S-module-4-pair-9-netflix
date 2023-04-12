@@ -176,8 +176,8 @@ app.post('/favorites-add', (req, res) => {
   let idMovie = '642d381f0b94d82287f2b72c';
   let idUser = '642d39010b94d82287f2b72f';
   const favorites = new Favorites({
-    idUser: idMovie,
-    idMovie: idUser,
+    Users: idUser,
+    Movies: idMovie,
     score: req.body.score,
   });
   favorites
@@ -193,9 +193,9 @@ app.post('/favorites-add', (req, res) => {
 app.get('/favorites-list/:user', (req, res) => {
   //const user = req.params.user;
   Favorites.find({
-    idUser: req.params.user,
+    Users: req.params.user,
   })
-    // .populate({ path: 'movies', strictPopulate: false })
+    .populate('Movies')
     .then((docs) => {
       res.json(docs);
     })

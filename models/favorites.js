@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const favoritesSchema = new Schema(
   {
-    idUser: { type: Schema.Types.ObjectId, ref: 'users' },
-    idMovie: { type: Schema.Types.ObjectId, ref: 'movies' },
+    Users: { type: Schema.Types.ObjectId, ref: 'Users' },
+    Movies: { type: Schema.Types.ObjectId, ref: 'Movies' },
     score: Number,
   },
   { collection: 'favorites' }
